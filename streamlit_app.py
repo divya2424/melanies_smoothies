@@ -13,9 +13,6 @@ st.write(
 name_on_order = st.text_input("Name on Smoothie")
 st.write('The name on your smoothie will be: ', name_on_order)
 
-smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")  
-st.text(smoothiefroot_response)
-
 option = st.selectbox('What is your favorite fruit?', ('Banana', 'Strawberries', 'Peaches'))
 st.write('Your favorite fruit is:', option)
 # Get the current credentials
@@ -48,3 +45,6 @@ if ingredient_list:
     if time_to_insert:
         session.sql(my_insert_stmt).collect()
         st.success('Smoothie is ordered')
+
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")  
+st.text(smoothiefroot_response.json())
