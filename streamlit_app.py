@@ -1,5 +1,6 @@
 # Import python packages
 import streamlit as st
+import requests
 from snowflake.snowpark.functions import col
 
 # Write directly to the app
@@ -12,7 +13,8 @@ st.write(
 name_on_order = st.text_input("Name on Smoothie")
 st.write('The name on your smoothie will be: ', name_on_order)
 
-
+smoothiefroot_response = requests.get("[https://my.smoothiefroot.com/api/fruit/watermelon](https://my.smoothiefroot.com/api/fruit/watermelon)")  
+st.text(smoothiefroot_response)
 
 option = st.selectbox('What is your favorite fruit?', ('Banana', 'Strawberries', 'Peaches'))
 st.write('Your favorite fruit is:', option)
