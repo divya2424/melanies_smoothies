@@ -18,8 +18,10 @@ st.write('Your favorite fruit is:', option)
 # Get the current credentials
 cnx = st.connection("snowflake")
 session = cnx.session()
-my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
-# st.dataframe(data=my_dataframe, use_container_width=True)
+my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'), col('SEARCH_ON'))
+
+st.dataframe(data=my_dataframe, use_container_width=True)
+st.stop()
 # Use an interactive slider to get user input
 ingredient_list = st.multiselect(
     'Choose up to 5 ingredients',
