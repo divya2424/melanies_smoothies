@@ -1,6 +1,7 @@
 # Import python packages
 import streamlit as st
 import requests
+import pandas as pd
 from snowflake.snowpark.functions import col
 
 # Write directly to the app
@@ -20,8 +21,8 @@ cnx = st.connection("snowflake")
 session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'), col('SEARCH_ON'))
 
-st.dataframe(data=my_dataframe, use_container_width=True)
-st.stop()
+# st.dataframe(data=my_dataframe, use_container_width=True)
+
 # Use an interactive slider to get user input
 ingredient_list = st.multiselect(
     'Choose up to 5 ingredients',
@@ -35,8 +36,10 @@ if ingredient_list:
 
     for fruit_chosen in ingredient_list:
         ingredient_str += fruit_chosen + ' '
+        search_on=pd_df.loc[pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON'].iloc[0]
+        st.write('The search value for ', fruit_chosen,' is ', search_on, '.')
         st.subheader(fruit_chosen + ' Nutrition Information')
-        smoothiefroot_response = requests.get("https://www.fruityvice.com/api/fruit/" + fruit_chosen)  
+        smoothiefroot_response = requests.get("https://www.fruityvice.com/api/fruit/" + search_on)  
         sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
     st.write(ingredient_str)
